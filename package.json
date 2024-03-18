@@ -2,7 +2,7 @@
   "name": "quiz",
   "private": true,
   "version": "0.1.0",
-  "homepage": "https://gamaltawaf.github.io/quiz",
+  "homepage": "https://gamaltawaf.github.io/quiz/",
   "type": "module",
   "scripts": {
     "dev": "vite",
