@@ -1,5 +1,4 @@
 import DisplayPanel from './components/DisplayPanel';
-import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
@@ -9,9 +8,6 @@ function App() {
           <div className="w-full px-4 py-16">
             <div className="mx-auto w-full max-w-md">
               <DisplayPanel />
-              <Routes>
-              <Route path="/quiz" element={<App />} />
-            </Routes>
             </div>
           </div>
         </div>
