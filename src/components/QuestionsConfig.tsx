@@ -155,21 +155,25 @@ export default function QuestionsConfig({setQuestionsUrl, setCheatMode, cheatMod
             <fieldset>
               <legend className="text-sm font-semibold leading-6 text-gray-900">Question Types</legend>
               <div className="mt-6 space-y-6">
-              {questionTypes.map((questionType) => (
-                <div className="flex items-center gap-x-3" key={questionType.name}>
-                  <input
-                    name="difficulty"
-                    value={questionType.value}
-                    checked={selectedQuestionType === questionType.value}
-                    onChange={handleQuestionTypeChange}
-                    type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="difficulty" className="block text-sm font-medium leading-6 text-gray-900">
-                    {questionType.name}
-                  </label>
-                </div>
-              ))}
+              {questionTypes.map((questionType) => {
+                const inputId = `question-type-${questionType.value}`;
+                return (
+                  <div className="flex items-center gap-x-3" key={questionType.name}>
+                    <input
+                      id={inputId}
+                      name="questionType"
+                      value={questionType.value}
+                      checked={selectedQuestionType === questionType.value}
+                      onChange={handleQuestionTypeChange}
+                      type="radio"
+                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    />
+                    <label htmlFor={inputId} className="block text-sm font-medium leading-6 text-gray-900">
+                      {questionType.name}
+                    </label>
+                  </div>
+                );
+              })}
               </div>
             </fieldset>
           </div>
@@ -180,13 +184,14 @@ export default function QuestionsConfig({setQuestionsUrl, setCheatMode, cheatMod
               <div className="mt-6 space-y-6">
                 <div className="flex items-center gap-x-3" key="cheat">
                   <input
+                    id="cheatMode"
                     name="cheatMode"
                     checked={cheatMode === true}
                     onChange={handleCheatModeChange}
                     type="checkbox"
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
-                  <label htmlFor="difficulty" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label htmlFor="cheatMode" className="block text-sm font-medium leading-6 text-gray-900">
                     so Lazy today &#128540; Just show correct answer! &#128520;
                   </label>
                 </div>
