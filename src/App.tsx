@@ -2,17 +2,9 @@ import DisplayPanel from './components/DisplayPanel';
 
 function App() {
   return (
-    <>
-      <div className='items-center justify-center'>
-        <div className='flex w-full flex-col items-center justify-center'>
-          <div className="w-full px-4 py-16">
-            <div className="mx-auto w-full max-w-md">
-              <DisplayPanel />
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="w-full max-w-[640px] flex flex-col gap-[22px]">
+      <DisplayPanel />
+    </div>
   )
 }
 

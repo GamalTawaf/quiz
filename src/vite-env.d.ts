@@ -32,6 +32,7 @@ interface ResultsProps {
         current: Answer[]
     },
     questions: Question[],
+    onPlayAgain: () => void,
 }
 
 interface QuestionProps {

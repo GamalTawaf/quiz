@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
-import { CheckCircleIcon } from '@heroicons/react/16/solid';
 
 
 export default function AnswerOptions({ questions, questionIndex, userAnswers, answerOptions, cheatMode }: AnswerProps) {
   const question: Question = questions[questionIndex];
   const [selected, setSelected] = useState<string>('');
-  // if we have a userAnswers then show it if user moves back and forth between questions
-  // make sure it does not match current to prevent infinite rerender
-  if(userAnswers.current.length > 0 && userAnswers.current[questionIndex] && selected != userAnswers.current[questionIndex].user_answer) {
-    setSelected(userAnswers.current[questionIndex].user_answer);
+  const [trackedIndex, setTrackedIndex] = useState<number>(questionIndex);
+  // question changed: resync selected to this question's recorded answer (or clear it)
+  if (trackedIndex !== questionIndex) {
+    setTrackedIndex(questionIndex);
+    setSelected(userAnswers.current[questionIndex]?.user_answer ?? '');
   }
   // get the options by combining all answers
   if(question != null && answerOptions.current[questionIndex] == null) {
@@ -21,65 +21,56 @@ export default function AnswerOptions({ questions, questionIndex, userAnswers, a
 
   const handleChange = (answer: string) => {
     setSelected(answer);
-    // we add 1 as second param to replace item if it exists otherwise just add it
-    userAnswers.current.splice(questionIndex, 1, {'user_answer':answer, 'answered_correctly': answer === question.correct_answer});
+    // record by index directly so skipped questions don't shift later answers
+    userAnswers.current[questionIndex] = {'user_answer':answer, 'answered_correctly': answer === question.correct_answer};
   }
   return (
     <RadioGroup value={selected} onChange={handleChange}>
-      <div className="space-y-4">
-        {answerOptions.current[questionIndex].map((answerOption) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-[22px]">
+        {answerOptions.current[questionIndex].map((answerOption) => {
+          const isCorrect = cheatMode && question.correct_answer == answerOption;
+          const isSelectedWrong = cheatMode && selected === answerOption && answerOption !== question.correct_answer;
+          const badge = isCorrect
+            ? { text: 'Correct', className: 'bg-correct text-[#0f2312] -rotate-6' }
+            : isSelectedWrong
+              ? { text: '😏 Really?', className: 'bg-buzzer text-chalk rotate-6' }
+              : null;
+          return (
           <RadioGroup.Option
             key={answerOption}
             value={answerOption}
             className={({ active, checked }) =>
-              `${active
-                ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300'
-                : ''
-              }
-                  ${checked ? 'bg-sky-900/75 text-white' : 'bg-white'}
-                    relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
-                    
+              `relative font-body font-medium text-[15px] text-left rounded-xl px-[18px] pt-4 pb-[18px] cursor-pointer transition-[transform,box-shadow] duration-150 focus:outline-none
+              ${active ? 'ring-2 ring-gold ring-offset-2 ring-offset-chalkboard' : ''}
+              ${checked
+                ? 'bg-ink text-chalk shadow-paddle-active translate-y-0.5'
+                : isCorrect
+                  ? 'bg-[#e7f3e6] text-ink shadow-paddle-correct hover:-translate-y-0.5 hover:shadow-paddle-hover'
+                  : 'bg-chalk text-ink shadow-paddle hover:-translate-y-0.5 hover:shadow-paddle-hover'
+              }`
               }
           >
-            {({ active, checked }) => (
-              <>
-                <div className="flex w-full items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="text-sm">
-                      <RadioGroup.Label
-                        as="p"
-                        className={`font-medium  ${checked ? 'text-white' : 'text-gray-900'
-                          }`}
-                      >
-                        {decodeURIComponent(answerOption)}
-                      </RadioGroup.Label>
-                    </div>
-                  </div>
-                  {checked && (
-                    <div className="shrink-0 text-white h-6 w-6">
-                      <CheckCircleIcon />
-                    </div>
-                  )}
-                </div>
-                { cheatMode && question.correct_answer == answerOption && 
-                <span className="absolute min-w-[12px] min-h-[12px] rounded-md py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center bottom-[4%] right-[10%] translate-x-2/4 translate-y-2/4 bg-green-500 text-white border-2">
-                  Correct Answer
-                </span>
-                }
-              </>
-            )}
+            <RadioGroup.Label as="p">
+              {decodeURIComponent(answerOption)}
+            </RadioGroup.Label>
+            {badge &&
+              <span className={`absolute -top-2.5 -right-2 font-mono font-semibold text-[10px] tracking-[0.1em] uppercase px-2 py-1 rounded-[5px] shadow-[0_2px_6px_rgba(0,0,0,0.35)] ${badge.className}`}>
+                {badge.text}
+              </span>
+            }
           </RadioGroup.Option>
-        ))}
+          );
+        })}
       </div>
     </RadioGroup>
   )
 }
 
-// used from https://www.freecodecamp.org/news/how-to-shuffle-an-array-of-items-using-javascript-or-typescript/ 
+// used from https://www.freecodecamp.org/news/how-to-shuffle-an-array-of-items-using-javascript-or-typescript/
 function shuffleAnswers(answersArray: string[]) : string[] {
-  for (let i = answersArray.length - 1; i > 0; i--) { 
-    const j = Math.floor(Math.random() * (i + 1)); 
-    [answersArray[i], answersArray[j]] = [answersArray[j], answersArray[i]]; 
-  } 
-  return answersArray; 
+  for (let i = answersArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [answersArray[i], answersArray[j]] = [answersArray[j], answersArray[i]];
+  }
+  return answersArray;
 }

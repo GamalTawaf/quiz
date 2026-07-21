@@ -1,3 +1,69 @@
+@font-face {
+  font-family: 'Bungee';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/bungee-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/fonts/space-grotesk-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/space-grotesk-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/fonts/plex-mono-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/plex-mono-600.woff2') format('woff2');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(242, 183, 5, 0.08), transparent 60%),
+    repeating-linear-gradient(115deg, rgba(244, 239, 225, 0.025) 0px, rgba(244, 239, 225, 0.025) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at 50% 0%, #16241c 0%, #0f1a13 100%);
+}
+
+@keyframes board-flicker {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  18% { opacity: 0.3; }
+  24% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.board-rule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #f2b705 20%, #f2b705 80%, transparent);
+  animation: board-flicker 1.8s ease-in-out 0.2s 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board-rule::before { animation: none; opacity: 1; }
+}
