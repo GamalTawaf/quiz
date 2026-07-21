@@ -1,28 +1,34 @@
-import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/16/solid';
+import PillButton from './PillButton';
 
 function Move({questionIndex, questions, handleMove, finished, setFinished}: MoveProps) {
   return (
-    <>
-    {questionIndex-1 >= 0  && 
-        <div className='mt-5 float-left h-10 w-10 text-white hover:text-sky-900'>
-          <ArrowLeftCircleIcon onClick={() => handleMove(-1)} />
-        </div>      
-    }
-    {questionIndex+1 < questions.length &&
-        <div className='mt-5 float-right h-10 w-10 text-white hover:text-sky-900'>
-          <ArrowRightCircleIcon onClick={() => handleMove(1)} />
-        </div>
-    }
-    {!finished && questionIndex+1 === questions.length &&
-        <div className='mt-5 float-right text-white hover:text-sky-900'>
-        <button type="button" className="focus:outline-none text-white bg-green-700 
-                                        hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg 
-                                        text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" 
-                                        
-                onClick={() => setFinished(true)}>Submit</button>
-        </div>
-    }
-    </>
+    <div className="flex items-center justify-center gap-5 pt-1">
+      {questionIndex - 1 >= 0 &&
+        <button
+          type="button"
+          aria-label="Previous question"
+          onClick={() => handleMove(-1)}
+          className="w-[42px] h-[42px] rounded-full border border-chalk/[0.18] bg-chalk/[0.06] text-chalk text-lg flex items-center justify-center hover:bg-chalk/[0.14] hover:-translate-y-px transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+        >
+          ‹
+        </button>
+      }
+      {questionIndex + 1 < questions.length &&
+        <button
+          type="button"
+          aria-label="Next question"
+          onClick={() => handleMove(1)}
+          className="w-[42px] h-[42px] rounded-full border border-chalk/[0.18] bg-chalk/[0.06] text-chalk text-lg flex items-center justify-center hover:bg-chalk/[0.14] hover:-translate-y-px transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+        >
+          ›
+        </button>
+      }
+      {!finished && questionIndex + 1 === questions.length &&
+        <PillButton type="button" onClick={() => setFinished(true)}>
+          Submit
+        </PillButton>
+      }
+    </div>
   )
 }
 

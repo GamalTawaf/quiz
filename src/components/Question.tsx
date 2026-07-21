@@ -1,22 +1,16 @@
+import Board from './Board';
 
 function Question({ questions, questionIndex }: QuestionProps) {
   const question: Question = questions[questionIndex];
   return (
-    <div className="bg-sky-800/80 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none mb-5">
-      <div className="flex w-full items-center justify-between">
-        <div className="flex items-center">
-          <div>
-            <div className="absolute inline-flex items-center justify-center w-10 h-10 text-s text-white bg-green-400 font-bold border-2 border-white rounded-full top-[-20%] right-[50%] dark:border-gray-900">
-            {questionIndex+1}/{questions.length}
-            </div>
-            <p className="font-bold text-xl text-white">Question </p>
-            <span className="inline text-lg font-medium text-white">
-              {decodeURIComponent(question.question)}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Board className="pt-7 pb-[30px] mb-[22px]">
+      <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-chalk-dim mb-3.5">
+        Question {questionIndex + 1}
+      </p>
+      <h1 className="font-body font-bold text-[clamp(21px,4vw,30px)] leading-[1.28] text-balance text-chalk m-0">
+        {decodeURIComponent(question.question)}
+      </h1>
+    </Board>
   )
 }
 

@@ -1,29 +1,30 @@
-import { XCircleIcon } from "@heroicons/react/16/solid";
-import { CheckCircleIcon } from "@heroicons/react/16/solid";
+import Board from './Board';
+import PillButton from './PillButton';
 
-export default function Results({ questions, answers }: ResultsProps) {
+export default function Results({ questions, answers, onPlayAgain }: ResultsProps) {
   // calculate the results for display
   const correctAnswers: number = answers.current.filter( answer => answer.answered_correctly).length;
-  const successRate: number = (correctAnswers / questions.length)* 100;
-  const questionsAnswered: number = answers.current.length;
+  const successRate: number = Math.round((correctAnswers / questions.length) * 100);
+  const questionsAnswered: number = answers.current.filter(Boolean).length;
+  const passed = successRate >= 50;
 
   return (
-    <div className={(successRate >= 50 ? 'bg-emerald-400' : 'bg-red-500' ) + " cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none mb-5 w-3/5"}>
-      <div className="text-md font-bold text-gray-900">
-        <div className="pb-10 flex justify-center">
-          {successRate >= 50 && <CheckCircleIcon className="h-40 w-40 text-white" />}
-          {successRate < 50 && <XCircleIcon className="h-40 w-40 text-white" />}
-        </div>
-        <p className="pb-5">
-          Success rate is {successRate}
-        </p>
-        <p className="pb-5">
-          Answered {questionsAnswered} questions of {questions.length}
-        </p>
-        <p>
-          Total correct answers {correctAnswers}
-        </p>
-      </div>
-    </div>
+    <Board className="pt-8 pb-8 text-center">
+      <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-chalk-dim mb-3">
+        Final Score
+      </p>
+      <p className={`font-display text-5xl ${passed ? 'text-correct' : 'text-buzzer'} [text-shadow:0_0_18px_currentColor] mb-5`}>
+        {successRate}%
+      </p>
+      <p className="font-body text-chalk mb-1">
+        {correctAnswers} correct out of {questionsAnswered} answered
+      </p>
+      <p className="font-mono text-xs text-chalk-dim mb-7">
+        {questions.length} questions total
+      </p>
+      <PillButton type="button" onClick={onPlayAgain}>
+        Play Again
+      </PillButton>
+    </Board>
   )
 }
