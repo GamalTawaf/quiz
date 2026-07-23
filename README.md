@@ -1,8 +1,33 @@
-### Quiz app
- This was build as away for me to learn React.
+# Trivia Night
 
-## Flow:
- - select configruation for questions, you can select cheat option to see answers (don't be startelled) :P 
- - click submit ( you can )
- - you will see question and ansewers select answers and move back and forth between all questions and answers
- - You can submit and see result on the last page
+A React trivia game with dynamic question generation, real-time scoring, and instant feedback. Built as a way to learn React.
+
+**Live demo:** https://gamaltawaf.github.io/quiz/
+
+## Flow
+
+- Pick a question configuration — there's a "cheat" option to reveal answers up front, don't be startled
+- Submit to start
+- Answer questions, moving back and forth between them freely
+- Submit at the end to see your results
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Deploy
+
+```bash
+npm run deploy
+```
+
+Publishes `dist/` to the `gh-pages` branch.
