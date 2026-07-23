@@ -1,5 +1,12 @@
 {
   "name": "quiz",
+  "description": "Trivia Night — a React trivia game with dynamic question generation, real-time scoring, and instant feedback.",
+  "author": "Gamal Tawaf",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GamalTawaf/quiz.git"
+  },
   "private": true,
   "version": "0.1.0",
   "homepage": "https://gamaltawaf.github.io/quiz/",
