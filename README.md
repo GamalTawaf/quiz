@@ -2,6 +2,8 @@
 
 A React trivia game with dynamic question generation, real-time scoring, and instant feedback. Built as a way to learn React.
 
+![Trivia Night setup screen](docs/screenshot.jpg)
+
 **Live demo:** https://gamaltawaf.github.io/quiz/
 
 ## Flow
